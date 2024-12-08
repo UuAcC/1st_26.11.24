@@ -22,12 +22,22 @@ void radixSort(int* arr, int n) {
 		}
 		for (int i = 0;i < n;i++) { arr[i] = tmp[i]; }
 	}
-	free(tmp); free(counts); free(indexes);
+	free(counts); free(indexes); free(tmp);
+
+	int* pos = (int*)malloc(sizeof(int) * n); int pi = 0;
+	int* neg = (int*)malloc(sizeof(int) * n); int ni = 0;
+	for (int i=0;i<n;i++){
+		if (arr[i] >= 0) { pos[pi] = arr[i]; pi++; }
+		if (arr[i] < 0) { neg[ni] = arr[i]; ni++; }
+	}
+	for (int i = 0;i < ni;i++) { arr[i] = neg[i]; }
+	for (int i = 0;i < pi;i++) { arr[i + ni] = pos[i]; }
+	free(pos); free(neg);
 }
 
 int main() {
 	int n = 10;
-	int arr[10] = { 1, 7, 8, 16, 782342, 532, 999, 4, 6, 34 };
+	int arr[10] = { 1, 7, 8, -16, 782342, 532, 999, -4, 6, -34 };
 	radixSort(arr, n);
 	for (int i = 0;i < n;i++) { printf(" %d ", arr[i]); }
 	return 0;
